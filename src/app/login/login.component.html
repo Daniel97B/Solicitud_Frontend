@@ -12,7 +12,7 @@
                     formControlName="Usuario"/>
                 <label for="usuario" class="form-label">Usuario</label>
                 <span class="form-line"></span>
-                <div id="alerta" [hidden]="Usuario?.valid || Usuario?.pristine">
+                <div id="alerta" [hidden]="Usuario.valid || Usuario.pristine">
                     el nombre es obligatorio
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <input id="password" type="password" name="Password" class="form-input" placeholder=" "
                     formControlName="Password"/>
                 <label for="password" class="form-label">Contraseña</label>
-                <div id="alerta" [hidden]="Password?.valid || Password?.valid">
+                <div id="alerta" [hidden]="Password.valid || Password.valid">
                     <span *ngIf="Password?.errors?.['required']">
                         Campo Vacio
                     </span>

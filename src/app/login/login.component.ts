@@ -8,11 +8,11 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 export class LoginComponent {
   
   public get Usuario(){
-    return this.formLogin.get('Usuario');
+    return this.formLogin.get('Usuario') as FormControl;
   };
   
   public get Password(){
-    return this.formLogin.get('Password');
+    return this.formLogin.get('Password') as FormControl;
   };
   
   formLogin = new FormGroup({
