@@ -1,0 +1,148 @@
+<div class="min-h-screen flex flex-col lg:flex-row">
+    <!-- Left side - Image -->
+    <div class="hidden lg:flex lg:w-1/2 bg-yellow-50 items-center justify-center p-8">
+      <div class="max-w-md">
+        <img src="assets/delivery-illustration.svg" alt="Delivery illustration" class="w-full h-auto"/>
+      </div>
+    </div>
+    
+    <!-- Right side - Login form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div class="w-full max-w-md space-y-8">
+        <!-- Logo -->
+        <div class="flex justify-center">
+          <img src="assets/logo.svg" alt="HeKa Logo" class="h-12"/>
+        </div>
+        
+        <!-- Welcome text -->
+        <div class="text-center">
+          <h1 class="text-2xl font-bold text-gray-900">¡Bienvenido!</h1>
+          <h2 class="text-xl text-gray-700">Inicia sesión</h2>
+          <p class="mt-2 text-sm text-gray-600">Inicia tu sesión con estos datos</p>
+        </div>
+        
+        <!-- Login form -->
+        <form  class="mt-8 space-y-6">
+          <div class="space-y-4">
+            <!-- Email field -->
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700">
+                Correo electrónico
+              </label>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                [ngClass]="{'border-red-500': isFieldInvalid('email')}"
+              />
+              <p *ngIf="isFieldInvalid('email')" class="mt-1 text-sm text-red-600">
+                El correo electrónico es requerido
+              </p>
+            </div>
+            
+            <!-- Password field -->
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700">
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                formControlName="password"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                [ngClass]="{'border-red-500': isFieldInvalid('password')}"
+              />
+              <p *ngIf="isFieldInvalid('password')" class="mt-1 text-sm text-red-600">
+                La contraseña es requerida
+              </p>
+            </div>
+          </div>
+  
+          <!-- Forgot password link -->
+          <div class="text-right">
+            <a routerLink="/auth/recover-password" class="text-sm text-yellow-600 hover:text-yellow-500">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+  
+          <!-- Submit button -->
+          <button
+            type="submit"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            Ingresar
+          </button>
+  
+          <!-- Create account link -->
+          <div class="text-center">
+            <span class="text-sm text-gray-600">¿No tienes una cuenta? </span>
+            <a routerLink="/auth/register" class="text-sm text-yellow-600 hover:text-yellow-500">
+              Crea una aquí
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<!--
+  
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Iniciar Sesión | Sistema de Gestión</title>
+    <meta name="description" content="Sistema integral de gestión de solicitudes y tareas."/>
+    <meta name="keywords" content="gestión,solicitudes,tareas,sistema,administración"/>
+    
+ Open Graph / Facebook 
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Iniciar Sesión | Sistema de Gestión"/>
+    <meta property="og:description" content="Sistema integral de gestión de solicitudes y tareas."/>
+    <meta property="og:locale" content="es_CO"/>
+    
+  Twitter 
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="Iniciar Sesión | Sistema de Gestión"/>
+    <meta name="twitter:description" content="Sistema integral de gestión de solicitudes y tareas."/>
+    
+ Favicon 
+    <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="32x32"/>
+</head>
+<body>
+    <div class="body">
+        <div class="imag">
+        </div>
+        <div class="login-container">
+            <div class="user-icon">
+            </div>
+            <h2>Iniciar Sesión</h2>
+            <form [formGroup]="form" (ngSubmit)="entrar()">
+                <div class="input-group">
+                    <input type="text" id="usuario" class="form-input" formControlName='Usuario' placeholder=" "/>
+                    <div id="alerta" [hidden]="Usuario.valid || Usuario.pristine">
+                        Nombre Obligatorio
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input id="password" type="password" class="form-input" formControlName='Password' required>
+                </div>
+                <div class="options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Recuerdame</label>
+                    </div>
+                </div>
+                <input id="bottone1" type="submit" class="login-btn" [disabled]="form.invalid" value="Entrar"/>
+            </form>
+            <div class="register">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+-->

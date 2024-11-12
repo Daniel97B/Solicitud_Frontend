@@ -1,0 +1,246 @@
+<div id="app">
+  <header class="header">
+    <div class="plazoleta">
+      <h1>Plazoleta</h1>
+    </div>
+    <div class="grupo_boton">
+      <button
+        class="new-request-btn"
+        (click)="openSolicitud()"
+        id="newRequestBtn">
+        <span>+</span> Nueva Solicitud
+      </button>
+      <button class="Btn" (click)="salir()">
+        <div class="sign">
+          <svg viewBox="0 0 512 512">
+            <path
+              d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+          </svg>
+        </div>
+        <div class="texto">Salir</div>
+      </button>
+    </div>
+  </header>
+
+  <main class="content">
+    <!--Sección de Progreso-->
+    <div class="progress-section">
+      <h2>Progreso</h2>
+      <div class="progress-bar">
+        <div class="progress" [style.width]="progressPercentage + '%'"></div>
+      </div>
+      <div class="progress-text">
+        {{ progreso.Finalizado }} de {{ progreso.Total }} tareas completadas
+      </div>
+    </div>
+
+    <!--Tabla Solicitudes-->
+    <div class="section-container">
+      <h3 class="section-title">Solicitudes asignadas a mí</h3>
+      <div class="table-container">
+        <table>
+          <thead class="row-target">
+            <tr>
+              <th>Nombre tarea</th>
+              <th>Solicitante</th>
+              <th>Estado</th>
+              <th>Fecha de Solicitud</th>
+              <th>Fecha de Estimacion</th>
+              <th>Fecha Finalizacion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="col_down">
+            <tr *ngFor="let dato of solicitudes">
+              <td>{{ dato.Nombre_tarea }}</td>
+              <td>{{ dato.user.Nombre }}</td>
+              <td>{{ dato.Estado }}</td>
+              <td>{{ dato.Fecha_solicitud }}</td>
+              <td></td>
+              <td>{{ dato.Fecha_culminacion }}</td>
+              <td>
+                <div class="button-container">
+                  <button class="follow-btn" (click)="openChat(dato.id)">
+                    Seguimiento
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p></p>
+    <!--Tabla Asignado-->
+    <div class="section-container">
+      <h3 class="section-title">Solicitudes asignadas por mí</h3>
+      <div class="table-container">
+        <table>
+          <thead class="row-target">
+            <tr>
+              <th>Nombre tarea</th>
+              <th>Solicitante</th>
+              <th>Estado</th>
+              <th>Fecha de Solicitud</th>
+              <th>Fecha de Estimacion</th>
+              <th>Fecha Finalizacion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="col_down">
+            <tr *ngFor="let dato of asignado">
+              <td>{{ dato.Nombre_tarea }}</td>
+              <td>{{ dato.user.nombre }}</td>
+              <td>{{ dato.Estado }}</td>
+              <td>{{ dato.Fecha_solicitud }}</td>
+              <td></td>
+              <td>{{ dato.Fecha_culminacion }}</td>
+              <td>
+                <div class="button-container">
+                  <button class="follow-btn" (click)="openChat(dato.id)">
+                    Seguimiento
+                  </button>
+                  <button
+                    class="Btn_edit"
+                    *ngIf="dato.Estado === 'Pendiente'"
+                    (click)="
+                      openEditModal(dato.id, dato.Nombre_tarea, dato.Estado)
+                    ">
+                    <!-- Cambiado 'data' por 'dato' -->
+                    <svg class="svg_editar" viewBox="0 0 512 512">
+                      <path
+                        d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+                    </svg>
+                  </button>
+                  <td *ngIf="dato.Estado !== 'Pendiente'">Aprobado</td>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!--Modal chat-->
+  <div class="modal1" [class.show]="isChat" id="newChatmessage">
+    <div class="modal-chat">
+      <div class="header">
+        <div class="plazoleta">
+          <img src="assets/Logo2.png" alt="PLAZOLETA" />
+        </div>
+        <div class="header-chat">Chat</div>
+      </div>
+      <div class="chat-content">
+        <div class="contenedor-mensajes">
+          <div
+            [ngClass]="{
+              emisor: mensaje.emisor == this.id,
+              receptor: mensaje.emisor != this.id
+            }"
+            *ngFor="let mensaje of mensajes">
+            <p>{{ mensaje.mensaje }}</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <form [formGroup]="segui">
+          <label> Escriba su mensaje </label>
+          <input formControlName="soli" />
+        </form>
+
+      </div>
+      <div class="modal-actions">
+        <button class="Buttons-seguimiento" (click)="closeChat()">
+          Cerrar
+        </button>
+        <button class="Buttons-seguimiento" type="submit" (click)="newSeguimiento(this.mensajes[0].id_solicitud)">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Nueva Solicitud -->
+  <div class="modal" [class.show]="ischatSolici" id="newRequestModal">
+    <div class="modal-content">
+      <h2>Nueva Solicitud</h2>
+      <form id="newRequestForm" [formGroup]="form" (ngSubmit)="newSolicitud()">
+        <div class="form-group">
+          <label>Nombre de la solicitud</label>
+          <input
+            type="text"
+            formControlName="Nombre_tarea"
+            placeholder="Ingrese el nombre de la solicitud"
+            required />
+        </div>
+        <div class="form-group">
+          <label>Area</label>
+          <select (change)="Traer($event)" formControlName="Area">
+            <option *ngFor="let area of areas" [value]="area.id">
+              {{ area.Area }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="form.get('Area')?.value !== ''" class="form-group">
+          <label>Encargado a:</label>
+          <select formControlName="Asignado_a">
+            <option
+              *ngFor="let Usuario of usuarios_area.areas"
+              [value]="Usuario.id">
+              {{ Usuario.Nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha Estimada</label>
+          <input type="date" formControlName="Fecha_Estimada" required />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn">Cancelar</button>
+          <button type="submit">Crear Solicitud</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de edición -->
+  <div class="modal" [class.show]="isEditModalOpen">
+    <div class="modal-content">
+      <h2>Editar Tarea</h2>
+      <form [formGroup]="editForm" (ngSubmit)="saveEdit()">
+        <!-- Selector de estado -->
+        <div class="form-group">
+          <label for="estado">Estado</label>
+          <select id="estado" formControlName="estado" required>
+            <option value="0">Pendiente</option>
+            <option value="1">Completada</option>
+          </select>
+          <p
+            *ngIf="
+              editForm.get('estado')?.invalid &&
+              (editForm.get('estado')?.dirty || editForm.get('estado')?.touched)
+            ">
+            Campo vacio
+          </p>
+        </div>
+
+        <!-- Campo de texto para la tarea -->
+        <div *ngIf="editForm.get('estado')?.value === '0'" class="form-group">
+          <label for="tarea">Tarea</label>
+          <input
+            type="text"
+            id="tarea"
+            required
+            formControlName="nombreTarea" />
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" (click)="closeEditModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="save-btn">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

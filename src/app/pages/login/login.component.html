@@ -1,0 +1,42 @@
+ <div class="body">
+    <div class="login-container">
+        <div class="login-image">
+            <img src="assets/Logo.png" alt="HeKa Delivery">
+        </div>
+        <div class="login-form">
+            <img src="" alt="Plazoleta_Flowers" class="logo">
+            <h1>¡Bienvenido!</h1>
+            <form id="loginForm" [formGroup]="form" (ngSubmit)="entrar()">
+                <div class="form-group">
+                    <label for="Usuario" >Usuario</label>
+                    <div class="input-group">
+                        <input type="Usuario" formControlName='Usuario' id="Usuario"
+                            placeholder="Escribe tu correo electrónico" required>
+                        <span [hidden]="Usuario.valid || Usuario.untouched" class="error-message">El Usuario es requerido</span>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="password" >Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" formControlName='Password' id="password"
+                            placeholder="Escribe tu contraseña" required>
+                        <span [hidden]="Password.valid || Password.untouched"   class="error-message" >La contraseña es
+                            requerida</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Recuerdame</label>
+                    </div>
+                </div>
+    
+                <button type="submit" [hidden]="form.invalid">Ingresar</button>
+    
+                
+            </form>
+        </div>
+    </div>
+    
+ </div>

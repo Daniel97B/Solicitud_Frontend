@@ -1,0 +1,640 @@
+:root {
+    --primary-color: #22c55e;
+    --background-color: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-color: #212529;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 1rem ;
+    background-color: white;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.grupo_boton{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.new-request-btn{
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.new-request-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.new-request-btn{
+    background-color: #1ea550;
+}
+
+/* Content Styles */
+.content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Progress Section */
+.progress-section {
+    background-color: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.progress-section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* Table Styles */
+.requests-table {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    border: none;
+}
+
+.requests-table h2 {
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 15px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    scrollbar-width: 10px;
+    border: none;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+
+    border-bottom: 1px solid var(--border-color);
+}
+tr:last-child td {
+    border-bottom: none;
+}
+
+th {
+    font-weight: 600;
+    color: #6c757d;
+    background-color: #f5f5f5;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Button Styles */
+.follow-btn, .edit-btn {
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.follow-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.follow-btn {
+    background-color: #1ea550;
+}
+
+.edit-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+}
+
+.edit-btn:hover {
+    background-color: #f8f9fa;
+}
+
+/* Estilos para el botón de editar */
+.edit-btn {
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #24ff07;
+    color: white;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background-color: #004ee0;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 1000px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Estilos para el modal */
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal-content h2 {
+    margin-bottom: 0.7rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+/* Estilos para el formulario */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.cancel-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background-color: #f8f9fa;
+}
+
+.create-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.create-btn:hover {
+    background-color: #1ea550;
+}
+
+/* Contenedor principal de la sección */
+.section-container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    background-color: white;
+}
+
+/* Título de la sección */
+.section-title {
+    font-size: 1rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Contenedor de la tabla */
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: none; /* Eliminamos el borde */
+}
+
+/* Eliminar cualquier otro borde que pueda estar causando duplicación */
+.requests-table,
+.requests-section {
+    border: none;
+}
+
+/*CONFIGURACIONES DE EL BOTON DE SALIR*/
+.Btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(255, 65, 65);
+}
+
+.sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign svg {
+    width: 17px;
+}
+
+.sign svg path {
+    fill: rgb(255, 255, 255);
+}
+
+.texto {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    color: rgb(255, 255, 255);
+    transition-duration: .3s;
+    text-align: center;
+}
+
+.Btn:hover {
+    width: 125px;
+    border-radius: 40px;
+    transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+}
+
+.Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Btn:active {
+    transform: translate(2px ,2px);
+}
+
+.Btn .sign svg {
+    fill: #666;
+}
+
+.Btn .text {
+    color: #ffffff;
+}
+
+.Btn:hover .sign svg {
+    fill: #444;
+}
+
+.Btn:hover .text {
+    color: #444;
+}
+
+/*Boton editar */
+.Btn_edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff; /* Cambiado de transparent a blanco */
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+.svg_editar {
+    width: 16px;
+    height: 16px;
+    fill: #666; /* Color gris para el icono */
+}
+
+.svg_editar:hover {
+    fill: #444; /* Gris más oscuro al hover */
+}
+
+/* Contenedor para los botones en la celda */
+td .button-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaciado entre botones */
+}
+
+.follow-btn,
+.Btn_edit {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.follow-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.follow-btn {
+    background-color: #1ea550;
+}
+
+.Btn_edit {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+}
+
+.svg_editar {
+    width: 16px;
+    height: 16px;
+}
+
+/* Añade estos estilos en administrador.component.css */
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.follow-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.follow-btn:hover {
+    background-color: #45a049;
+}
+
+.Btn_edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    padding: 8px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.svg_editar {
+    width: 16px;
+    height: 16px;
+}
+
+.Buttons-seguimiento{
+    width: 5rem;
+    height: 2rem;
+    border-radius: 8px;
+}
+.header{
+    display:flex;
+    justify-content:space-evenly;
+    padding-bottom:10px;
+    border-radius: 10px;
+    margin-top: -20px;
+    border-bottom:1px solid #b6cadd;
+}
+.plazoleta{
+    display: flex;
+    height: 4rem;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.header-chat{
+    padding-left: 1rem;
+    font-size: 2rem;
+}
+
+.modal-chat{
+    width: 50%;
+    height: 60%;
+    justify-items: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.chat-content{
+   
+   height: 100%;
+   overflow-y: auto;
+}
+
+.emisor{
+    padding: 10px;
+    color: #e71111;
+    font-size: 13px;
+    right: 0;
+    border-radius: 10px;
+    padding: 10px;
+    width: 75%;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: #a5d1ee;
+    color: black;
+    float: right;
+    font-size: 13px;
+    left: 0;
+}
+.receptor{
+    color: #291792;
+    background-color: #333;
+    color: #fff;
+    width: 75%;
+    float: left;
+    font-size: 13px;
+    right: 0;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+.contenedor-mensajes{
+    padding: 15px;
+}
+
+.modal1{
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    position: fixed;
+    display: none;
+}
+.modal1.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal1 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
