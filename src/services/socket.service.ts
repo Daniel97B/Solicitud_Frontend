@@ -1,26 +1,38 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, OnInit, output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { io,Socket } from 'socket.io-client';
+import { Socket } from 'ngx-socket-io';
+import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SocketService {
-  private socket:Socket;
-  private mensajeSubject = new Subject<any>();
-  constructor() { 
-    this.socket = io('http://localhost:4200/')
+
+export class SocketWebService extends Socket  {
+  mensaje: EventEmitter<any> = new EventEmitter();
+  constructor(
+
+  ) {
+    try {
+      super({
+        url: 'http://localhost:5009',
+        options: { transports: ['websocket'] }
+      });
+
+      this.escucharmensaje();
+
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
-  public SendMensaje(mensaje:string):void{
-    this.socket.emit('message',mensaje);
+    solicitudes(id_usuario: any) {
+        this.ioSocket.emit('cliente:enviarMensaje', {id_usuario});   
+    };
+
+    escucharmensaje(){
+      this.ioSocket.on('server:enviarMensaje',(datos:any,res:any) => {
+        this.mensaje.emit(datos);
+      });    
+        
+    };
   };
-  public getMensaje(){
-    this.socket.on('message',(mensaje: any)=>{
-      this.mensajeSubject.next(mensaje);
-    });
-    return this.mensajeSubject.asObservable();
-  };
-  public disconnect(): void {
-    this.socket.disconnect();
-  }
-}

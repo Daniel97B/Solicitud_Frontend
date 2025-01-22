@@ -550,15 +550,15 @@ td .button-container {
 }
 .header{
     display:flex;
-    justify-content:space-evenly;
     padding-bottom:10px;
     border-radius: 10px;
-    margin-top: -20px;
+    margin-top: -5px;
     border-bottom:1px solid #b6cadd;
 }
 .plazoleta{
     display: flex;
     height: 4rem;
+    margin-top: 1rem;
     border-radius: 50%;
     margin-right: 20px;
 }
@@ -568,8 +568,8 @@ td .button-container {
 }
 
 .modal-chat{
-    width: 50%;
-    height: 60%;
+    width: 55%;
+    height: 80%;
     justify-items: center;
     background-color: #f5f5f5;
     border-radius: 10px;
@@ -590,9 +590,8 @@ td .button-container {
     right: 0;
     border-radius: 10px;
     padding: 10px;
-    width: 75%;
+    width: 51%;
     margin-bottom: 5px;
-    border-radius: 10px;
     background-color: #a5d1ee;
     color: black;
     float: right;
@@ -603,7 +602,7 @@ td .button-container {
     color: #291792;
     background-color: #333;
     color: #fff;
-    width: 75%;
+    width: 51%;
     float: left;
     font-size: 13px;
     right: 0;
@@ -637,4 +636,17 @@ td .button-container {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+}
+
+.send{
+    width: 30px;
+    height: 30px;
+    display: flex;
+}
+.Imput-chat{
+    display: flex;
+    justify-content:space-around;
+    border-radius: 10px;
+    border-color:1px solid #666;
+    margin: 10px;
 }

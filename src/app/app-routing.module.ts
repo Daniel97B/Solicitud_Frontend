@@ -29,9 +29,9 @@ const routes: Routes = [
   },
   {
     path: 'Administrador',
-    loadChildren:()=> import('./pages/administrador/administrador.module').then(m =>m.AdministradorModule),
+    loadChildren:()=> import('./pages/prin-admin/administrador/administrador.module').then(m =>m.AdministradorModule),
     pathMatch:'full',
-    
+    canActivate:[CheckRoleAdministradorGuard]
   }
 
 ];

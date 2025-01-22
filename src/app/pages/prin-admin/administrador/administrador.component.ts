@@ -1,7 +1,7 @@
-import { StorageService } from './../../Localstorage/localstorage';
-import { Solicitud } from '../../../interfaces/Task';
+import { StorageService } from '../../../Localstorage/localstorage';
+import { Solicitud } from '../../../../interfaces/Task';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { TaskService } from '../../../services/task.services';
+import { TaskService } from '../../../../services/task.services';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -9,6 +9,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import {SocketWebService} from '../../../../services/socket.service';
 
 @Component({
   selector: 'app-administrador',
@@ -20,45 +21,52 @@ export class AdministradorComponent implements OnInit {
     private router: Router,
     private task: TaskService,
     private storageService: StorageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private Socket:SocketWebService
   ) {
-    //realizamos la definición de los formularios
-    this.editForm = this.fb.group({
-      nombreTarea: ['', Validators.required],
-      estado: ['', Validators.required],
-    });
+    this.token = this.storageService.getItem('token');
+    this.id = this.storageService.getItem('id');
     this.form = this.fb.group({
       Nombre_tarea: ['', Validators.required],
       Area: ['', Validators.required],
       Fecha_Estimada: ['', Validators.required],
       Asignado_a: ['', Validators.required],
     });
+    Socket.mensaje.subscribe((res) => {
+      this.mensajes = res;
+      
+    })
+    //realizamos la definición de los formularios
+    this.editForm = this.fb.group({
+      nombreTarea: ['', Validators.required],
+      estado: ['', Validators.required],
+    });
+    
     this.segui = this.fb.group({
       soli: ['', Validators.required],
-    })
+    });
     this.token = this.storageService.getItem('token');
     this.id = this.storageService.getItem('id');
   }
   /**
    * *Creamos las variables que vamos a utilizar
    */
+  form!: FormGroup;
   progressPercentage: number = 0;
   isChat = false;
   idchat: any;
-  isDarkMode = false;
   isEditModalOpen = false;
   ischatSolici = false;
   editForm: FormGroup;
-  segui:FormGroup;
+  segui: FormGroup;
   currentTarea: any;
-  id:any;
-  token:any;
+  id: any;
+  token: any;
   solicitudes: any = [];
   areas: any = [];
   asignado: any = [];
-  mensajes: any= []
-  usuarios_area:any = [];
-  
+  mensajes: any = [];
+
   data = {
     Nombre_tarea: '',
     Solicitante: '',
@@ -81,16 +89,12 @@ export class AdministradorComponent implements OnInit {
   fecha_final = `${this.año}-${String(this.mes).padStart(2, '0')}-${String(
     this.dia
   ).padStart(2, '0')}`;
-
+  usuarios_area: any = [];
   /* 
   TODO REALIZAMOS LA CREACION DE TODAS LAS FUNCIONES QUE NECESITAMOS
   */
-  form!: FormGroup;
-  salir() {
-    //*Limpiamos el localstorage y redirigimos al login
-    localStorage.clear();
-    this.router.navigate(['login']);
-  }
+  
+  
 
   //! Método para calcular el progreso basado en los datos
   calcularProgreso(completados: number, total: number) {
@@ -102,45 +106,64 @@ export class AdministradorComponent implements OnInit {
     }
   }
   //!Consulta de tareas
-  appget(Apimetodo :'pendientes'|'asignado',token:any, id:any){
-    console.log('entra aca');
+  appget(Apimetodo: 'pendientes' | 'asignado', token: any, id: any) {
+
     if (Apimetodo === 'pendientes') {
-      this.task[Apimetodo](token,id).subscribe((res)=>this.solicitudes = this.mapeo(res)   
-    )
-    }else{ 
-      this.task[Apimetodo](token,id).subscribe((res)=>this.asignado = this.mapeo(res))
+      this.task[Apimetodo](token, id).subscribe(
+        (res) => (this.solicitudes = this.mapeo(res))
+      );
+    } else {
+      this.task[Apimetodo](token, id).subscribe(
+        (res) => (this.asignado = this.mapeo(res))
+      );
     }
   }
-  mapeo(mapa:any){
-    console.log(mapa);
-    
+  mapeo(mapa: any) {
     const result = mapa.map((mapa: any) => ({
       ...mapa,
       Estado: mapa.Estado ? 'Finalizado' : 'Pendiente',
     }));
-    
+
     return result;
   }
   //!Metodo para obtener todas las solicitudes
   Solicitudes() {
-    //*Obtenemos el token y el id del usuario
-    const token = this.token; 
+  //*Obtenemos el token y el id del usuario
+    const token = this.token;
     const id = this.id;
-    console.log(token, id);
     // Solicitud a la API para obtener asignaciones
-    this.appget('pendientes',token,id);
-};
+    this.appget('pendientes', token, id);
+  }
   //!Metodo para tener todas las peticiones hechas
   Asignado() {
     //*Obtenemos el token y el id del usuario
     const token = this.token;
     const id = this.id;
-    //* Solicitud a la API para obtener solicitudes pendientes
-    this.appget('asignado',token,id);
+    // //* Solicitud a la API para obtener solicitudes pendientes
+    this.appget('asignado', token, id);
   }
-
+  newSeguimiento() {
+    const token = this.token;
+    const mensaje = this.segui.value.soli;
+    const mensaje_data = {
+      mensaje: mensaje,
+      id_solicitud: this.idchat,
+      emisor: this.id,
+    };
+   this.task.chat(token, mensaje_data).subscribe((res) => {
+    this.Socket.solicitudes(this.idchat);
+   });
+  this.segui.patchValue({
+    soli: '',
+   });   
+   //* Insertamos los datos que llegan de el socket en la variable mensajes
+   
+  }
   //!Se realizan diversas operaciones al abrir la aplicación
   ngOnInit() {
+    const sapato = this.Socket.escucharmensaje(); 
+    console.log('este es el dato que me llega ', sapato);
+    
     //* Obtenemos el rol del usuario
     const roll = this.storageService.getItem('role');
 
@@ -162,8 +185,13 @@ export class AdministradorComponent implements OnInit {
         });
     } else {
       this.router.navigate(['login']);
-    }
+    };
   }
+  salir() {
+    //*Limpiamos el localstorage y redirigimos al login
+    localStorage.clear();
+    this.router.navigate(['login']);
+  };
   //* Funcion para editar y enviar los datos del formulario a la api
   openEditModal(id: number, nombre_tarea: any, dato: any) {
     const fecha = this.fecha_final;
@@ -178,24 +206,19 @@ export class AdministradorComponent implements OnInit {
     this.isEditModalOpen = false;
   }
   //*Funcion para abrir el chat
-  openChat(seguimiento:any) {
+  async openChat(seguimiento: any) {
+    this.idchat = seguimiento;
     const token = this.token;
     this.isChat = true;
-    this.task.mensajes(token,seguimiento).subscribe((res: any) => {
-      console.log(res[0]);
-      this.mensajes = res;
+    this.task.mensajes(token, seguimiento).subscribe((res: any) => {
+      this.mensajes = res;      
     });
-  }
-  closeChat() {}
+    };
+  closeChat() {
+    this.isChat = false;
+  };
+
   
-  Traer(valor: Event): void {
-    const valorSeleccionado = (valor?.target as HTMLSelectElement).value;
-    const token = this.token;
-    const usuarios = this.task.area_Usuario(token, valorSeleccionado).subscribe((res)=>{
-      this.usuarios_area = res;
-      
-    });
-  }
   //*Funcion enviar cambio de datos de el formulario
   saveEdit() {
     if (this.editForm.valid) {
@@ -231,6 +254,32 @@ export class AdministradorComponent implements OnInit {
       this.isEditModalOpen = false;
     }
   }
+  
+  newSolicitud() {
+    try {
+      const fecha = this.fecha_final;
+      const token = this.storageService.getItem('token');
+      const id = this.storageService.getItem('id');
+      const asignado = this.form.get('Asignado_a')?.value;
+      const solicitudN = {
+        Nombre_tarea: this.form.get('Nombre_tarea')?.value,
+        Solicitante: `${id}`,
+        Asignado_a: `${asignado}`,
+        Fecha_solicitud: fecha,
+        Estado: false,
+        Fecha_culminacion: '',
+      };
+
+      this.task.crear(token, solicitudN).subscribe((res) => {
+        this.Solicitudes();
+        this.Asignado();
+        this.ischatSolici = false;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   openSolicitud() {
     this.ischatSolici = true;
 
@@ -242,49 +291,14 @@ export class AdministradorComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
-
-    if (this.form.valid) {
-    }
-  }
-  newSolicitud() {
-      try {
-        const fecha = this.fecha_final;
-        const token = this.token;
-        const id = this.id;
-        const asignado = this.form.get('Asignado_a')?.value;
-        const solicitudN = {
-          Nombre_tarea: this.form.get('Nombre_tarea')?.value,
-          Solicitante: `${id}`,	
-          Asignado_a: `${asignado}`,
-          Fecha_solicitud:fecha,
-          Estado: false,
-          Fecha_culminacion:''
-        };
-        console.log(solicitudN);
-        
-        this.task.crear(token,solicitudN).subscribe((res)=>{
-          this.Solicitudes();
-          this.Asignado();
-          this.ischatSolici = false;
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    
-  }
-  newSeguimiento(id_solicitud:any){
-    console.log(id_solicitud);
-    const token = this.token
-    const mensaje = this.segui.value.soli;
-    const mensaje_data ={
-      mensaje:mensaje,
-      id_solicitud:id_solicitud,
-      emisor:this.id
-    }
-    console.log(mensaje);
-    this.task.chat(token,mensaje_data).subscribe((res)=>{
-      console.log(res);
-      this.openChat(id_solicitud); 
-    })
+  };
+  Traer(valor: Event): void {
+    const valorSeleccionado = (valor?.target as HTMLSelectElement).value;
+    const token = this.token;
+    const usuarios = this.task
+      .area_Usuario(token, valorSeleccionado)
+      .subscribe((res) => {
+        this.usuarios_area = res;
+      });
   };
 }

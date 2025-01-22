@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class TaskService {
-    private api = 'http://localhost:5006/api/'
+    private api = 'http://localhost:5009/api/'
   constructor(
     private http:HttpClient
   ) { }
@@ -16,7 +16,7 @@ export class TaskService {
 };
   CreateLogueo(login:any){
     const path = '';  
-  return this.http.post('http://localhost:5006/api/auth/login',login);
+  return this.http.post(`${this.api}auth/login`,login);
 };
   //!VER SOLICITUDES PENDIENTES
   pendientes(token:any,Asignar_a:any){

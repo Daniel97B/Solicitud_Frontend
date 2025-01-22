@@ -1,26 +1,29 @@
+
+<header class="header">
+  <div class="plazoleta">
+    <h1>Plazoleta</h1>
+  </div>
+  <div class="grupo_boton">
+    <button
+      class="new-request-btn"
+      (click)="openSolicitud()"
+      id="newRequestBtn">
+      <span>+</span> Nueva Solicitud
+    </button>
+    <button class="Btn" (click)="salir()">
+      <div class="sign">
+        <svg viewBox="0 0 512 512">
+          <path
+            d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+        </svg>
+      </div>
+      <div class="texto">Salir</div>
+    </button>
+  </div>
+</header>
+
+ 
 <div id="app">
-  <header class="header">
-    <div class="plazoleta">
-      <h1>Plazoleta</h1>
-    </div>
-    <div class="grupo_boton">
-      <button
-        class="new-request-btn"
-        (click)="openSolicitud()"
-        id="newRequestBtn">
-        <span>+</span> Nueva Solicitud
-      </button>
-      <button class="Btn" (click)="salir()">
-        <div class="sign">
-          <svg viewBox="0 0 512 512">
-            <path
-              d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
-          </svg>
-        </div>
-        <div class="texto">Salir</div>
-      </button>
-    </div>
-  </header>
 
   <main class="content">
     <!--Sección de Progreso-->
@@ -130,6 +133,7 @@
           <img src="assets/Logo2.png" alt="PLAZOLETA" />
         </div>
         <div class="header-chat">Chat</div>
+        <button type="button" (click)="closeChat()" class="cancel-btn">(X)</button>
       </div>
       <div class="chat-content">
         <div class="contenedor-mensajes">
@@ -143,64 +147,27 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="Imput-chat">
         <form [formGroup]="segui">
           <label> Escriba su mensaje </label>
           <input formControlName="soli" />
         </form>
-
-      </div>
-      <div class="modal-actions">
-        <button class="Buttons-seguimiento" (click)="closeChat()">
-          Cerrar
+        <button class="Btn_edit" (click)="newSeguimiento()">
+          <div class="send">
+            <svg class="send-icon" version="1.1" id="Capa_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+              xml:space="preserve"><g><g><path fill="#6B6C7B"
+                    d="M481.508,210.336L68.414,38.926c-17.403-7.222-37.064-4.045-51.309,8.287C2.86,59.547-3.098,78.551,1.558,96.808 L38.327,241h180.026c8.284,0,15.001,6.716,15.001,15.001c0,8.284-6.716,15.001-15.001,15.001H38.327L1.558,415.193 c-4.656,18.258,1.301,37.262,15.547,49.595c14.274,12.357,33.937,15.495,51.31,8.287l413.094-171.409 C500.317,293.862,512,276.364,512,256.001C512,235.638,500.317,218.139,481.508,210.336z"></path></g></g></svg>
+          </div>
         </button>
-        <button class="Buttons-seguimiento" type="submit" (click)="newSeguimiento(this.mensajes[0].id_solicitud)">Enviar</button>
+        
       </div>
     </div>
   </div>
 
-  <!-- Modal Nueva Solicitud -->
-  <div class="modal" [class.show]="ischatSolici" id="newRequestModal">
-    <div class="modal-content">
-      <h2>Nueva Solicitud</h2>
-      <form id="newRequestForm" [formGroup]="form" (ngSubmit)="newSolicitud()">
-        <div class="form-group">
-          <label>Nombre de la solicitud</label>
-          <input
-            type="text"
-            formControlName="Nombre_tarea"
-            placeholder="Ingrese el nombre de la solicitud"
-            required />
-        </div>
-        <div class="form-group">
-          <label>Area</label>
-          <select (change)="Traer($event)" formControlName="Area">
-            <option *ngFor="let area of areas" [value]="area.id">
-              {{ area.Area }}
-            </option>
-          </select>
-        </div>
-        <div *ngIf="form.get('Area')?.value !== ''" class="form-group">
-          <label>Encargado a:</label>
-          <select formControlName="Asignado_a">
-            <option
-              *ngFor="let Usuario of usuarios_area.areas"
-              [value]="Usuario.id">
-              {{ Usuario.Nombre }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Fecha Estimada</label>
-          <input type="date" formControlName="Fecha_Estimada" required />
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="cancel-btn">Cancelar</button>
-          <button type="submit">Crear Solicitud</button>
-        </div>
-      </form>
-    </div>
-  </div>
+
 
   <!-- Modal de edición -->
   <div class="modal" [class.show]="isEditModalOpen">
@@ -242,5 +209,48 @@
         </div>
       </form>
     </div>
+  </div>
+</div>
+
+ <!-- Modal Nueva Solicitud -->
+ <div class="modal" [class.show]="ischatSolici" id="newRequestModal">
+  <div class="modal-content">
+    <h2>Nueva Solicitud</h2>
+    <form id="newRequestForm" [formGroup]="form" (ngSubmit)="newSolicitud()">
+      <div class="form-group">
+        <label>Nombre de la solicitud</label>
+        <input
+          type="text"
+          formControlName="Nombre_tarea"
+          placeholder="Ingrese el nombre de la solicitud"
+          required />
+      </div>
+      <div class="form-group">
+        <label>Area</label>
+        <select (change)="Traer($event)" formControlName="Area">
+          <option *ngFor="let area of areas" [value]="area.id">
+            {{ area.Area }}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="form.get('Area')?.value !== ''" class="form-group">
+        <label>Encargado a:</label>
+        <select formControlName="Asignado_a">
+          <option
+            *ngFor="let Usuario of usuarios_area.areas"
+            [value]="Usuario.id">
+            {{ Usuario.Nombre }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fecha Estimada</label>
+        <input type="date" formControlName="Fecha_Estimada" required />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn">Cancelar</button>
+        <button type="submit">Crear Solicitud</button>
+      </div>
+    </form>
   </div>
 </div>

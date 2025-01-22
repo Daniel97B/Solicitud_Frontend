@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Component, Inject, PLATFORM_ID, } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Logueo } from '../../../interfaces/Task';
+import { Socket } from 'ngx-socket-io';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -34,10 +35,11 @@ export class LoginComponent {
 
   form!: FormGroup;
   ngOnInit() {
+    
     // Inicializamos el formulario en el constructor
     this.form = this.builder.group({
       'Usuario': [null, [Validators.required]],
-      'Password': [null, [Validators.required, Validators.minLength(8), Validators.maxLength(10)]]
+      'Password': [null, [Validators.required, Validators.minLength(8), Validators.maxLength(15)]]
     });
   }
   
@@ -68,7 +70,7 @@ export class LoginComponent {
         User: `${Usuario}`,
         Password: `${Password}`
       };
-
+      
       this.TaskService.CreateLogueo(login).subscribe((res: any) => {
         //console.log(res.data.user.email);
         localStorage.setItem('User', res.data.user.User);
